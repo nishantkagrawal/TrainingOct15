@@ -1,0 +1,31 @@
+﻿@import "../bower_components/bootstrap-less/less/bootstrap";
+
+@body-bg:               #f5f5f5;
+@list-group-bg:     #F0F8FF;
+
+//** List group border radius
+@list-group-border-radius:      (@border-radius-base + 2);
+
+// Make all list group items rounded:
+.list-group-item-rounded {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  // Place the border on the list items and negative margin up for better styling
+  margin-bottom: 0;
+  background-color: @list-group-bg;
+  border: 1px solid @list-group-border;
+
+  // Round the first and last items
+ .border-top-radius(@list-group-border-radius);
+ .border-bottom-radius(@list-group-border-radius);
+
+  // Align badges within list items
+  > .badge {
+    float: right;
+  }
+  > .badge + .badge {
+    margin-right: 5px;
+  }
+}
+

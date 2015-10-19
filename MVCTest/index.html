@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Rolodex TypeScript Application</title>
+
+
+</head>
+<body ng-app="contactsApp">
+
+    <div class="container" ng-controller="listCtrl as vm">
+
+        <h1>TypeScript HTML App 1</h1>
+        <button ng-click="vm.testFunction(false)" class="btn btn-default">Test contacts</button>
+        <div class="row">
+            <span class="col-sm-2 col-sm-offset-2">
+                Order by:
+            </span>
+            <select ng-model="vm.sortOrder">
+                <option value="lastName" selected>last (a-z)</option>
+                <option value="-lastName">last (z-a)</option>
+                <option value="firstName">first</option>
+                <option value="-firstName">first (z-a)</option>
+                <option value="zip">zip code</option>
+            </select>
+        </div>
+        <ul class="list-unstyled list-group">
+            <li class="list-group-item-rounded" ng-repeat="contact in vm.contacts|orderBy : vm.sortOrder">
+                <div class="row" ng-hide="vm.activeEditing()">
+                    <span class="col-sm-8 lead text-center">
+                        {{contact.lastName}}, {{contact.firstName}}
+                    </span>
+                </div>
+                <div class="row" ng-show="contact.showDetails && !contact.activeEditing()">
+                    <div class="col-sm-5 col-sm-offset-1">
+                        <div class="row">
+                            {{contact.address}}
+                        </div>
+                        <div class="row">
+                            {{contact.city}}, {{contact.state}}&nbsp;{{contact.zip}}
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="row">
+                            <span class="col-sm-5">home phone:</span>
+                            <span class="col-sm-7">{{contact.homePhone}}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col-sm-5">work phone:</span>
+                            <span class="col-sm-7">{{contact.workPhone}}</span>
+                        </div>
+                        <div class="row">
+                            <span class="col-sm-5">cell phone:</span>
+                            <span class="col-sm-7">{{contact.cellPhone}}</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <button class="btn btn-default" ng-click="vm.toggleShowDetails(contact)">
+                            <span ng-hide="contact.showDetails">Show Details</span>
+                            <span ng-show="contact.showDetails">Hide Details</span>
+                        </button>
+
+                    </div>
+                </div>
+
+                <edit-content contact="contact"
+                              mode="'Edit'"
+                              active-editing="contact.activeEditing"
+                              toggle-edit-mode="vm.toggleEditMode"
+                              temp-contact="vm.editContact"
+                              get-button-text="vm.getButtonText"
+                              delete-contact="vm.deleteContact"></edit-content>
+
+
+
+
+
+            </li>
+
+        </ul>
+
+        <edit-content contact="newContact"
+                      mode="'Add'"
+                      active-editing="newContact.activeEditing"
+                      toggle-edit-mode="vm.toggleAddMode"
+                      temp-contact="vm.editContact"
+                      get-button-text="vm.getButtonText"
+                      delete-contact="vm.deleteContact"></edit-content>
+
+
+
+
+
+
+        <!--<div>
+            <button class="btn btn-default" ng-click="vm.newContact()">Add</button>
+        </div>-->
+
+    </div>
+    <link href="Content/site.css" rel="stylesheet" />
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/Q.js/dist/Q.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+
+    <script src="app/app.js"></script>
+    <script src="app/directives/editContent.js"></script>
+    <script src="app/list/list.model.js"></script>
+    <script src="app/list/list.service.js"></script>
+    <script src="app/list/list.controller.js"></script>
+</html>
+

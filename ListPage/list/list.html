@@ -1,0 +1,46 @@
+﻿<div>
+    Test 1
+</div>
+<div ng-controller="listCtrl as vm">
+    <select ng-model="sortOrder">
+        <option value="lastName" selected>last (a-z)</option>
+        <option value="-lastName">last (z-a)</option>
+        <option value="firstName">first</option>
+        <option value="-firstName">first (z-a)</option>
+        <option value="zip">zip code</option>
+    </select>
+
+    <li class="list-group-item-rounded" ng-repeat="contact in contacts">
+        <div class="row">
+            <span class="col-sm-8 lead text-center">
+                {{contact.lastName}}, {{contact.firstName}}
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-sm-5 col-sm-offset-1">
+                <div class="row">
+                    {{contact.address}}
+                </div>
+                <div class="row">
+                    {{contact.city}}, {{contact.state}}&nbsp;{{contact.zip}}
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <span class="col-sm-5">home phone:</span>
+                    <span class="col-sm-7">{{contact.homePhone}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-sm-5">work phone:</span>
+                    <span class="col-sm-7">{{contact.workPhone}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-sm-5">cell phone:</span>
+                    <span class="col-sm-7">{{contact.cellPhone}}</span>
+                </div>
+            </div>
+        </div>
+    </li>
+
+
+</div>

@@ -1,0 +1,82 @@
+﻿<form novalidate class="form-inline" name="editForm">
+    <div ng-show="activeEditing()">
+        <div class="row">
+            <div class="lead text-center">
+                <span class=" col-sm-6 form-group">
+                    <label for="LastName">Last Name:</label>
+                    <input ng-required="true" class="form-control" type="text" name="LastName" ng-model="contact.editContact.lastName" />
+                    <span class="help-block" ng-show="editForm.LastName.$error.required">Last name is required</span>
+                </span>
+                <span class="form-group col-sm-6">
+                    <label for="FirstName">First Name:</label>
+                    <input ng-required="true" class="form-control" type="text" name="FirstName" ng-model="contact.editContact.firstName" />
+                    <span class="help-block" ng-show="editForm.FirstName.$error.required">First name is required</span>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="row">
+                    <span class="col-sm-2">
+                        <label for="Line1">Address:</label>
+                    </span>
+                    <span class="col-sm-10">
+                        <input ng-required="true" class="form-control" type="text" name="address" ng-model="contact.editContact.address" />
+                        <span class="help-block" ng-show="editForm.address.$error.required">Address is required</span>
+                    </span>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 col-sm-offset-2">
+                        <label class="sr-only" for="City">City:</label>
+                        <input ng-required="true" class="form-control" name="city" type="text" ng-model="contact.editContact.city" />
+                        <span class="help-block" ng-show="editForm.city.$error.required">City is required</span>
+                    </div>
+                    <span class="col-sm-1">
+                        <label for="State" class="sr-only">State:</label>
+                        <input ng-required="true" ng-pattern="/^[A-Z][A-Z]$/" class="form-control" name="state" type="text" ng-model="contact.editContact.state" />
+                        <span class="help-block" ng-show="editForm.state.$error.required">State is required</span>
+                        <span class="help-block" ng-show="editForm.state.$error.pattern">State must be two capital letters</span>
+
+                    </span>
+                    <span class="col-sm-2">
+                        <label for="Zip" class="sr-only">Zip</label>
+                        <input ng-pattern="/^[0-9]{5}$/" ng-required="true" class="form-control" name="zip" type="text" ng-model="contact.editContact.zip" />
+                        <span class="help-block" ng-show="editForm.zip.$error.required">Zipcode is required</span>
+                        <span class="help-block" ng-show="editForm.zip.$error.pattern">Zipcode must be five digits</span>
+
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <label for="HomePhone" class="col-sm-3">home phone:</label>
+                    <input ng-required="true" class="form-control" name="homePhone" type="tel" ng-model="contact.editContact.homePhone" />
+                    <span class="help-block" ng-show="editForm.homePhone.$error.pattern">Phone should should be in specific format</span>
+
+                </div>
+                <div class="row">
+                    <label for="WorkPhone" class="col-sm-3">work phone:</label>
+                    <input ng-pattern="/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/" ng-required="true" class="form-control" name="WorkPhone" type="tel" ng-model="contact.editContact.workPhone" />
+                    <span class="help-block" ng-show="editForm.WorkPhone.$error.pattern">Phone should should be in specific format</span>
+
+                </div>
+                <div class="row">
+                    <label for="CellPhone" class="col-sm-3">cell phone:</label>
+                    <input ng-required="true" class="form-control" name="CellPhone" type="tel" ng-model="contact.editContact.cellPhone" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    
+    <button class="btn btn-default" ng-click="toggleEditMode(contact, editForm.$dirty)">
+        {{getButtonText(contact, editForm.$dirty, mode) }} 
+    </button>
+
+    <button ng-show="mode!=='Add'" class="btn btn-default" ng-click="deleteContact(contact)">
+        Delete
+    </button>
+    <div>isEditing = {{activeEditing()}}</div>
+</form>

@@ -1,0 +1,12 @@
+{
+  "name": "myproject",
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-mocks": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "bootstrap-less": "~3.3.4",
+    "jasmine-core": "jasmine#~2.3.4",
+    "jquery": "~2.1.4",
+    "underscore": "~1.8.3"
+  }
+}
