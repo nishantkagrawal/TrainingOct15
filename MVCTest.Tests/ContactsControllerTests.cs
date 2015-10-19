@@ -32,7 +32,7 @@ namespace MVCTest.Tests
         [Test(Description = "Passing a negative index should throw exception")]
         public void GetByNegativeShouldThrowException()
         {
-            var testCtrl = new ContactsController();
+            var testCtrl = new ContactsController(new Repository.EF.UnitOfWork());
             Assert.Throws<IndexOutOfRangeException>(() => testCtrl.Get(-1));
         }
 

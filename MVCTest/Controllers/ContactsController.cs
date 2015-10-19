@@ -17,9 +17,9 @@ namespace MVCTest.Controllers
         private static List<Contact> contacts = new List<Contact>();
         IUnitOfWork uOW;
 
-        public ContactsController() : this(new Repository.nHibernate.UnitOfWork())
-        {
-        }
+        //public ContactsController() : this(new Repository.nHibernate.UnitOfWork())
+        //{
+        //}
 
         public ContactsController(IUnitOfWork uow)
         {
