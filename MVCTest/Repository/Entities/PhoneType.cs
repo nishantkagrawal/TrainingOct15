@@ -1,9 +1,10 @@
+using MVCTest.Repository.nHibernate.Helpers;
 using System;
 using System.Collections.Generic;
 
 namespace MVCTest.Repository.Entities
 {
-    public partial class PhoneType : IEntity
+    public partial class PhoneType : IEntity, IMapByCode
     {
         #region  .ctor
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

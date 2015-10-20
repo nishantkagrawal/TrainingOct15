@@ -13,6 +13,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json.Serialization;
 using MVCTest.Repository.nHibernate.Helpers;
 using MVCTest.Repository.nHibernate.Overrides;
+using NHibernate.Cfg.MappingSchema;
+using NHibernate.Mapping.ByCode;
+using MVCTest.Repository.nHibernate.Mappings;
+using NHibernate.Cfg;
 
 namespace MVCTest.Repository.nHibernate
 {
@@ -20,26 +24,40 @@ namespace MVCTest.Repository.nHibernate
     {
         static TrainingContext()
         {
-            //SessionFactory = ConfigureSql();
-            SessionFactory = ConfigurePostGres();
+            SessionFactory = ConfigureSql();
+            //SessionFactory = ConfigurePostGres();
         }
 
         static ISessionFactory ConfigureSql()
         {
-            var sessionFactory = Fluently.Configure()
+            //Gets all Mapping By code mappings
+            var cfg = MapToCodeConfiguration.configuration;            
+
+            var sessionFactory = Fluently.Configure(cfg)
                 .Database(MsSqlConfiguration.MsSql2008
                   .ConnectionString(conString => conString.FromConnectionStringWithKey("TrainingEntities"))
                   .ShowSql())
+                  
+                  //
+                  //.Mappings(x => x.MergeMappings())
+
+                  //The following code will map all classes that implement IEntity through
+                  //AutoMap. No hand coding of mapping is required.
                   .Mappings(x => x.AutoMappings
                       .Add(AutoMap.AssemblyOf<Contact>(new AutomappingConfiguration())
                       .Conventions.AddFromAssemblyOf<PluralTableNameConvention>()
                       .OverrideAll(p => { p.SkipProperty(typeof(NotMappedAttribute)); })
                       ))
 
-              //.OverrideAll(p => p.IgnoreProperties(ShouldIgnoreMember))))
+                  
+                  //The following code will map all classes that are implementing ClassMap<T>
+                  //Manual mapping of properties is required.
+                  //See PhoneNumberMap.cs in Repository/Mappings folder
+                  .Mappings(x => x.FluentMappings.AddFromAssemblyOf<Contact>())
+                  
               //.UseOverridesFromAssemblyOf<ContactOverrides>()))
 
-              .ExposeConfiguration(config => new SchemaUpdate(config).Execute(false, true))
+              .ExposeConfiguration(config => new SchemaUpdate(config).Execute(false, false))
               .BuildSessionFactory();
 
             //.Mappings(m =>
@@ -51,9 +69,7 @@ namespace MVCTest.Repository.nHibernate
 
             return sessionFactory;
         }
-
-
-
+        
         static ISessionFactory ConfigurePostGres()
         {
             var sessionFactory = Fluently.Configure()

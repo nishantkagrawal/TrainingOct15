@@ -1,9 +1,10 @@
+using MVCTest.Repository.nHibernate.Helpers;
 using System;
 using System.Collections.Generic;
 
 namespace MVCTest.Repository.Entities
 {
-    public partial class PhoneNumber : IEntity
+    public partial class PhoneNumber : IEntity, IFluentIgnore
     {
         public virtual int Id { get; set; }
         public virtual int PhoneTypeId { get; set; }
