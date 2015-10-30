@@ -15,7 +15,6 @@
     export interface IContact extends ng.resource.IResource<IContactBase> {
     }
 
-
     export class Contact implements IContactBase {
         public id: number;
         public firstName: string;
@@ -40,7 +39,6 @@
             this.showDetails = false;
         }
 
-
         public createNewIContact = (): IContactBase => {
             var tempIContact: IContactBase =
                 {
@@ -59,7 +57,7 @@
         }
 
         public activeEditing = () => {
-            //console.log("activeEditing");            
+            //console.log("activeEditing");
             return this.isEditing;
         }
 
@@ -69,12 +67,10 @@
         }
 
         public assignProperties = (source: IContactBase, dest: IContactBase) => {
-          
             //This doesnt work here because of ByRef. A new object gets created and messes it up.
             //if (this.dest == null) {
             //    this.dest = this.createBlankInstance();
             //}
-
 
             //This doesnt work here because it assigns other properties also.
 

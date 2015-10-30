@@ -1,5 +1,4 @@
-﻿
-namespace Training.Tests {    
+﻿namespace Training.Tests {
     import TC = Training.Controllers;
     import TS = Training.Services;
     describe("List Controller", () => {
@@ -11,7 +10,6 @@ namespace Training.Tests {
             angular.mock.module(($provide: ng.auto.IProvideService) => {
                 $provide.service("contactsService", TS.Mock.ContactsMockService);
             });
-           
         });
 
         beforeEach(inject(($controller: ng.IControllerService, $injector: ng.auto.IInjectorService) => {
@@ -41,7 +39,7 @@ namespace Training.Tests {
         //});
 
         //you can also invoke functions on a controller from unit tests
-        
+
         it("is just a test to see that function can be invoked", () => {
             //initially the value of forUnitTest is false
             expect(vm.forUnitTest).toBe(false);
@@ -76,10 +74,6 @@ namespace Training.Tests {
                 expect(vm.contacts.length).toBe(length);
                 expect(vm.contacts.indexOf(contactToDelete)).toBe(length - 2);
             });
-
         });
-
-
     });
 }
-

@@ -1,54 +1,73 @@
-﻿using FluentNHibernate.Automapping;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
+﻿using System;
 using MVCTest.Repository.Entities;
-using NHibernate;
-using NHibernate.Tool.hbm2ddl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace MVCTest.Repository.nHibernate
+namespace MVCTest.Repository.NHibernate
 {
+    /// <summary>
+    ///     The unit of work.
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
-        private TrainingContext entities = new TrainingContext();
-
-        static UnitOfWork()
-        {
-
-        }
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="UnitOfWork" /> class.
+        /// </summary>
         public UnitOfWork()
         {
-            this.Contacts = new Repository<Contact>(this.entities.Session);
-            this.PhoneNumbers = new Repository<PhoneNumber>(this.entities.Session);
-            this.PhoneTypes = new Repository<PhoneType>(this.entities.Session);
-
+            this.Entities = new TrainingContext();
+            this.Contacts = new Repository<Contact>(this.Entities.Session);
+            this.PhoneNumbers = new Repository<PhoneNumber>(this.Entities.Session);
+            this.PhoneTypes = new Repository<PhoneType>(this.Entities.Session);
         }
 
-        public IRWRepository<Contact> Contacts { get; set; }
-        public IRWRepository<PhoneNumber> PhoneNumbers { get; set; }
-        public IRWRepository<PhoneType> PhoneTypes { get; set; }
+        /// <summary>
+        ///     Gets or Sets the Entities.
+        /// </summary>
+        public TrainingContext Entities { get; }
 
+        /// <summary>
+        ///     Gets or sets the contacts.
+        /// </summary>
+        public IRwRepository<Contact> Contacts { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the phone numbers.
+        /// </summary>
+        public IRwRepository<PhoneNumber> PhoneNumbers { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the phone types.
+        /// </summary>
+        public IRwRepository<PhoneType> PhoneTypes { get; set; }
+
+        /// <summary>
+        ///     The begin transaction.
+        /// </summary>
         public void BeginTransaction()
         {
-            this.entities.BeginTransaction();
+            this.Entities.BeginTransaction();
         }
 
+        /// <summary>
+        ///     The commit.
+        /// </summary>
         public void Commit()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///     The roll back.
+        /// </summary>
         public void RollBack()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///     The save changes.
+        /// </summary>
         public void SaveChanges()
         {
-            throw new NotImplementedException();
         }
     }
 }

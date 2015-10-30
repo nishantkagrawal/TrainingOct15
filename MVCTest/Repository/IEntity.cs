@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MVCTest.Repository
+﻿namespace MVCTest.Repository
 {
+    /// <summary>
+    ///     An interface that each entity should implement
+    /// </summary>
     public interface IEntity
     {
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
         int Id { get; set; }
     }
-
 }

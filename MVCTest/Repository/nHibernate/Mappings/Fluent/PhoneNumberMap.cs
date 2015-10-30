@@ -1,22 +1,22 @@
 ﻿using FluentNHibernate.Mapping;
 using MVCTest.Repository.Entities;
-using NHibernate.Mapping.ByCode.Conformist;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace MVCTest.Repository.nHibernate.Mappings
+namespace MVCTest.Repository.NHibernate.Mappings.Fluent
 {
+    /// <summary>
+    /// The phone number map.
+    /// </summary>
     public class PhoneNumberMap : ClassMap<PhoneNumber>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhoneNumberMap"/> class.
+        /// </summary>
         public PhoneNumberMap()
         {
-            Id(x => x.Id);
-            Map(x => x.Number);
-            References(x => x.PhoneType).Column("PhoneTypeId");
-            References(x => x.Contact).Column("ContactId");            
-
+            this.Id(x => x.Id);
+            this.Map(x => x.Number);
+            this.References(x => x.PhoneType).Column("PhoneTypeId");
+            this.References(x => x.Contact).Column("ContactId");
         }
     }
 }

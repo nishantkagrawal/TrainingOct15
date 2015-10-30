@@ -1,10 +1,8 @@
-﻿
-namespace Training.Controllers {
+﻿namespace Training.Controllers {
     import TM = Training.Models;
     export class ListController {
         public contacts: TM.Contact[];
         constructor(private $scope, private $window: ng.IWindowService, private contactsService: Training.Services.ContactsService) {
-
             //this.contacts = contactsService.getAllContacts();
             this.contacts = contactsService.getAllContacts();
             //console.log(this.contacts);
@@ -22,11 +20,10 @@ namespace Training.Controllers {
 
         public phoneNumberPattern = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
 
-        
         //    var contact = new Contact(null);
         //    contact.isEditing = true;
         //    this.contacts.push(contact);
-        //}        
+        //}
 
         public deleteContact = (contact: TM.Contact) => {
             if (this.$window.confirm("Are you sure you want to delete?")) {
@@ -34,12 +31,10 @@ namespace Training.Controllers {
                 var index = this.contacts.indexOf(contact);
                 this.contacts.splice(index, 1);
             }
-
         }
 
         public toggleAddMode = (contact: TM.Contact, isDirty: boolean) => {
-
-            if (!contact) { //clicked on Add Button  
+            if (!contact) { //clicked on Add Button
                 contact = new TM.Contact(null);
                 this.$scope.newContact = contact;
             }
@@ -56,7 +51,6 @@ namespace Training.Controllers {
         }
 
         public toggleEditMode = (contact: TM.Contact, isDirty: boolean) => {
-
             if (contact.isEditing == false) { //Clicked on Edit, start editing
                 //this.editContact = <IContact>this;
                 if (contact.editContact == null) {
@@ -77,12 +71,11 @@ namespace Training.Controllers {
                 }
                 contact.isEditing = false;
             }
-
         }
 
         public getButtonText = (contact: TM.Contact, dirty: boolean, mode: string) => {
             //console.log("getEditText");
-            
+
             if (contact && contact.isEditing) {
                 if (dirty) {
                     return "Save";
@@ -146,6 +139,4 @@ namespace Training.Controllers {
     }
 
     angular.module("contactsApp").controller("listCtrl", Training.Controllers.ListController);
-
-
 }

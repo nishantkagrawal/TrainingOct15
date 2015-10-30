@@ -1,37 +1,53 @@
-﻿using MVCTest.Repository.nHibernate.Mappings;
+﻿using System;
+using System.Collections.Generic;
+using MVCTest.Repository.NHibernate.Mappings;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace MVCTest.Repository.nHibernate.Helpers
+namespace MVCTest.Repository.NHibernate.Helpers
 {
+    /// <summary>
+    ///     The map to code Configuration.
+    /// </summary>
     public static class MapToCodeConfiguration
     {
-        private static HbmMapping CreateMapping()
-        {
-
-            var mapper = new ModelMapper();
-            //Add the person mapping to the model mapper
-            mapper.AddMappings(new List<System.Type> { typeof(PhoneTypeMap) });
-            //Create and return a HbmMapping of the model mapping in code
-            return mapper.CompileMappingForAllExplicitlyAddedEntities();
-        }
-
-        public static Configuration configuration;
-
+        /// <summary>
+        ///     Initializes static members of the <see cref="MapToCodeConfiguration" /> class.
+        /// </summary>
         static MapToCodeConfiguration()
         {
-            configuration = new Configuration();
-            //Loads properties from hibernate.cfg.xml
-            configuration.Configure();
-            //Loads nhibernate mappings 
-            configuration.AddDeserializedMapping(CreateMapping(), null);
+            Configuration = new Configuration();
 
-            //return configuration;
+            //Loads properties from hibernate.cfg.xml
+            Configuration.Configure();
+
+            //Loads nhibernate mappings
+            Configuration.AddDeserializedMapping(CreateMapping(), null);
+
+            //return Configuration;
+        }
+
+        /// <summary>
+        ///     Gets The Configuration.
+        /// </summary>
+        public static Configuration Configuration { get; private set; }
+
+        /// <summary>
+        ///     The create mapping.
+        /// </summary>
+        /// <returns>
+        ///     The <see cref="HbmMapping" />.
+        /// </returns>
+        private static HbmMapping CreateMapping()
+        {
+            var mapper = new ModelMapper();
+
+            //Add the person mapping to the model mapper
+            mapper.AddMappings(new List<Type> { typeof(PhoneTypeMap) });
+
+            //Create and return a HbmMapping of the model mapping in code
+            return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }
     }
 }

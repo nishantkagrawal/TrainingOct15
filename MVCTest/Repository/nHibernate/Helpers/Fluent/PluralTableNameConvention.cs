@@ -1,16 +1,20 @@
 ﻿using FluentNHibernate.Conventions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data.Entity;
+using FluentNHibernate.Conventions.Instances;
 
-
-namespace MVCTest.Repository.nHibernate.Helpers
+namespace MVCTest.Repository.NHibernate.Helpers.Fluent
 {
+    /// <summary>
+    /// The plural table name convention.
+    /// </summary>
     public class PluralTableNameConvention : IClassConvention
     {
-        public void Apply(FluentNHibernate.Conventions.Instances.IClassInstance instance)
+        /// <summary>
+        /// The apply.
+        /// </summary>
+        /// <param name="instance">
+        /// The instance.
+        /// </param>
+        public void Apply(IClassInstance instance)
         {
             instance.Table(Inflector.Inflector.Pluralize(instance.EntityType.Name));
         }

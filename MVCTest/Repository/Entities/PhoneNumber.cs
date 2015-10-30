@@ -1,17 +1,41 @@
-using MVCTest.Repository.nHibernate.Helpers;
-using System;
-using System.Collections.Generic;
+using MVCTest.Repository.NHibernate.Helpers.Fluent;
 
 namespace MVCTest.Repository.Entities
 {
-    public partial class PhoneNumber : IEntity, IFluentIgnore
+    /// <summary>
+    /// The phone number.
+    /// </summary>
+    [FluentIgnore]
+    public class PhoneNumber : IEntity
     {
-        public virtual int Id { get; set; }
-        public virtual int PhoneTypeId { get; set; }
+        /// <summary>
+        /// Gets or sets the contact.
+        /// </summary>
+        public virtual Contact Contact { get; set; }
+
+        /// <summary>
+        /// Gets or sets the contact id.
+        /// </summary>
         public virtual int ContactId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        public virtual int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number.
+        /// </summary>
         public virtual string Number { get; set; }
 
+        /// <summary>
+        /// Gets or sets the phone type.
+        /// </summary>
         public virtual PhoneType PhoneType { get; set; }
-        public virtual Contact Contact { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone type id.
+        /// </summary>
+        public virtual int PhoneTypeId { get; set; }
     }
 }

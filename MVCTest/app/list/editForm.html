@@ -36,14 +36,12 @@
                         <input ng-required="true" ng-pattern="/^[A-Z][A-Z]$/" class="form-control" name="state" type="text" ng-model="contact.editContact.state" />
                         <span class="help-block" ng-show="editForm.state.$error.required">State is required</span>
                         <span class="help-block" ng-show="editForm.state.$error.pattern">State must be two capital letters</span>
-
                     </span>
                     <span class="col-sm-2">
                         <label for="Zip" class="sr-only">Zip</label>
                         <input ng-pattern="/^[0-9]{5}$/" ng-required="true" class="form-control" name="zip" type="text" ng-model="contact.editContact.zip" />
                         <span class="help-block" ng-show="editForm.zip.$error.required">Zipcode is required</span>
                         <span class="help-block" ng-show="editForm.zip.$error.pattern">Zipcode must be five digits</span>
-
                     </span>
                 </div>
             </div>
@@ -52,13 +50,11 @@
                     <label for="HomePhone" class="col-sm-3">home phone:</label>
                     <input ng-required="true" class="form-control" name="homePhone" type="tel" ng-model="contact.editContact.homePhone" />
                     <span class="help-block" ng-show="editForm.homePhone.$error.pattern">Phone should should be in specific format</span>
-
                 </div>
                 <div class="row">
                     <label for="WorkPhone" class="col-sm-3">work phone:</label>
                     <input ng-pattern="/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/" ng-required="true" class="form-control" name="WorkPhone" type="tel" ng-model="contact.editContact.workPhone" />
                     <span class="help-block" ng-show="editForm.WorkPhone.$error.pattern">Phone should should be in specific format</span>
-
                 </div>
                 <div class="row">
                     <label for="CellPhone" class="col-sm-3">cell phone:</label>
@@ -66,13 +62,10 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
-    
     <button class="btn btn-default" ng-click="toggleEditMode(contact, editForm.$dirty)">
-        {{getButtonText(contact, editForm.$dirty, mode) }} 
+        {{getButtonText(contact, editForm.$dirty, mode) }}
     </button>
 
     <button ng-show="mode!=='Add'" class="btn btn-default" ng-click="deleteContact(contact)">

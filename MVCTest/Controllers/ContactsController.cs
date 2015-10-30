@@ -1,94 +1,139 @@
-﻿using MVCTest.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Data.Entity;
 using MVCTest.Repository;
 using MVCTest.Repository.Entities;
 
 namespace MVCTest.Controllers
 {
+    /// <summary>
+    ///     The contacts controller.
+    /// </summary>
     public class ContactsController : ApiController
     {
+        /// <summary>
+        ///     The unit of work.
+        /// </summary>
+        private readonly IUnitOfWork uOw;
 
-        private static List<Contact> contacts = new List<Contact>();
-        IUnitOfWork uOW;
-
-        //public ContactsController() : this(new Repository.nHibernate.UnitOfWork())
-        //{
-        //}
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactsController"/> class.
+        /// </summary>
+        /// <param name="uow">
+        /// The uow.
+        /// </param>
         public ContactsController(IUnitOfWork uow)
         {
-            this.uOW = uow;
+            this.uOw = uow;
         }
 
-        //static ContactsController()
-        //{
-        //    SetContacts();
-        //}
-
-        //private IQueryable<Contact> ContactsQuery()
-        //{
-        //    var query = entities.Contacts.Include(p => p.PhoneNumbers).Select(p => p.setPhoneNumbers());
-        //    return query;
-        //}
+        // DELETE api/<controller>/5
+        /// <summary>
+        /// The delete.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        [HttpDelete]
+        public void Delete(int id)
+        {
+            var contactToRemove = this.uOw.Contacts.GetAll().Single(p => p.Id == id);
+            var phonesToRemove = contactToRemove.PhoneNumbers;
+            this.uOw.PhoneNumbers?.Delete(phonesToRemove);
+            this.uOw.Contacts.Delete(contactToRemove);
+            this.uOw.SaveChanges();
+        }
 
         // GET api/<controller>
+        /// <summary>
+        ///     The get.
+        /// </summary>
+        /// <returns>
+        ///     The <see cref="IEnumerable{Contact}" />.
+        /// </returns>
         public IEnumerable<Contact> Get()
         {
-            return uOW.Contacts.GetAll().Include(p => p.PhoneNumbers).AsEnumerable().Select(p => p.PhoneCollectionToFlatObject());            //return contacts;
+            return
+                this.uOw.Contacts.GetAll()
+                    .Include(p => p.PhoneNumbers)
+                    .AsEnumerable()
+                    .Select(p => p.PhoneCollectionToFlatObject()); //return contacts;
         }
 
         // GET api/<controller>/5
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Contact"/>.
+        /// </returns>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Returns exception if the id is less than 0
+        /// </exception>
         public Contact Get(int id)
         {
             if (id < 0)
+            {
                 throw new IndexOutOfRangeException();
+            }
 
             //if (id > contacts.Count)
             //    return default(Contact);
-
-            return this.uOW.Contacts.GetAll()
+            return this.uOw.Contacts.GetAll()
                 .Include(p => p.PhoneNumbers)
                 .Single(p => p.Id == id)
                 .PhoneCollectionToFlatObject();
         }
 
         // POST api/<controller>
-        public void Post([FromBody]Contact value)
+        /// <summary>
+        /// The post.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <exception cref="HttpResponseException">
+        /// Http Response Exception
+        /// </exception>
+        public void Post([FromBody] Contact value)
         {
-            if (validateContact(value))
+            if (ValidateContact(value))
             {
-                this.uOW.Contacts.Add(value);
+                this.uOw.Contacts.Add(value);
                 value.PhoneNumbers = value.FlatObjectToPhoneCollection();
 
-                this.uOW.SaveChanges();
+                this.uOw.SaveChanges();
             }
             else
             {
-                var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                response.ReasonPhrase = "Tried to add invalid contact";
+                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    ReasonPhrase = "Tried to add invalid contact"
+                };
                 throw new HttpResponseException(response);
             }
-
-        }
-
-        private bool validateContact(Contact value)
-        {
-            return !string.IsNullOrWhiteSpace(value.FirstName);
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Contact value)
+        /// <summary> The put. </summary>
+        /// <param name="id"> The id. </param>
+        /// <param name="value"> The Contact value to PUT. </param>
+        /// <returns>The contact value back</returns>
+        public Contact Put(int id, [FromBody] Contact value)
         {
-            if (!validateContact(value))
-                return;
+            if (!ValidateContact(value))
+            {
+                return null;
+            }
 
-            var contactToUpdate = this.uOW.Contacts.GetAll().SingleOrDefault(c => c.Id == id);
+            var contactToUpdate = this.uOw.Contacts.GetAll().SingleOrDefault(c => c.Id == id);
             if (contactToUpdate != null)
             {
                 contactToUpdate.FirstName = value.FirstName;
@@ -98,80 +143,30 @@ namespace MVCTest.Controllers
                 contactToUpdate.State = value.State;
                 contactToUpdate.Zip = value.Zip;
 
-                //TODO : Only add those numbers which are new                
+                //TODO : Only add those numbers which are new
                 contactToUpdate.PhoneNumbers = value.FlatObjectToPhoneCollection();
+
                 //contactToUpdate.HomePhone = value.HomePhone;
                 //contactToUpdate.WorkPhone = value.WorkPhone;
                 //contactToUpdate.CellPhone = value.CellPhone;
             }
 
-            this.uOW.SaveChanges();
+            this.uOw.SaveChanges();
+            return contactToUpdate;
         }
 
-        // DELETE api/<controller>/5
-        [HttpDelete]
-        public void Delete(int id)
+        /// <summary>
+        /// The validate contact.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool ValidateContact(Contact value)
         {
-            var contactToRemove = this.uOW.Contacts.GetAll().Single(p => p.Id == id);
-            var phonesToRemove = contactToRemove.PhoneNumbers;
-            if (this.uOW.PhoneNumbers != null)
-            {
-                this.uOW.PhoneNumbers.Delete(phonesToRemove);
-            }
-            this.uOW.Contacts.Delete(contactToRemove);
-            this.uOW.SaveChanges();
+            return !string.IsNullOrWhiteSpace(value.FirstName);
         }
-
-        //static void SetContacts()
-        //{
-        //    contacts.Add(new Contact()
-        //    {
-        //        FirstName = "John",
-        //        LastName = "Lennon",
-        //        Address = "123 Strawberry Fields",
-        //        City = "Forever",
-        //        State = "UK",
-        //        Zip = "12344",
-        //        HomePhone = "2121112221",
-        //        CellPhone = "2121112222",
-        //        WorkPhone = "2121112223"
-        //    });
-        //    contacts.Add(new Contact()
-        //    {
-        //        FirstName = "Paul",
-        //        LastName = "McCartney",
-        //        Address = "456 Penny Lane",
-        //        City = "London",
-        //        State = "UK",
-        //        Zip = "55423",
-        //        HomePhone = "2122222221",
-        //        CellPhone = "2122222222",
-        //        WorkPhone = "2122222223"
-        //    });
-        //    contacts.Add(new Contact()
-        //    {
-        //        FirstName = "George",
-        //        LastName = "Harrison",
-        //        Address = "141 Something",
-        //        City = "London",
-        //        State = "UK",
-        //        Zip = "55627",
-        //        HomePhone = "2123332221",
-        //        CellPhone = "2123332222",
-        //        WorkPhone = "2123332223"
-        //    });
-        //    contacts.Add(new Contact()
-        //    {
-        //        FirstName = "Ringo",
-        //        LastName = "Starr",
-        //        Address = "1669 Octopus' Garden",
-        //        City = "New York",
-        //        State = "NY",
-        //        Zip = "12345",
-        //        HomePhone = "2124442221",
-        //        CellPhone = "2124442222",
-        //        WorkPhone = "2124442223"
-        //    });
-        //}
     }
 }

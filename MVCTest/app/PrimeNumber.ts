@@ -1,13 +1,11 @@
 ﻿namespace TypeScriptTest {
     export class PrimeNumber {
-
         constructor() {
-
         }
 
         private getFactors = (input) => {
-            var rangeToIterate = _.range(Math.round(Math.sqrt(input)), 1, -1);            
-            
+            var rangeToIterate = _.range(Math.round(Math.sqrt(input)), 1, -1);
+
             //find factors
             var factors = _.filter(rangeToIterate, (num) => {
                 return input % num === 0;

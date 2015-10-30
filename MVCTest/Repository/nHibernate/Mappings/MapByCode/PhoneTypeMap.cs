@@ -1,28 +1,29 @@
 ﻿using MVCTest.Repository.Entities;
 using NHibernate.Mapping.ByCode.Conformist;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace MVCTest.Repository.nHibernate.Mappings
+namespace MVCTest.Repository.NHibernate.Mappings
 {
+    /// <summary>
+    /// The phone type map.
+    /// </summary>
     public class PhoneTypeMap : ClassMapping<PhoneType>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PhoneTypeMap"/> class.
+        /// </summary>
         public PhoneTypeMap()
         {
-            Table("PhoneTypes");
-            Id(x => x.Id);
-            Property(x => x.Type);
-            Bag<PhoneNumber>(x => x.PhoneNumbers, cp =>
+            this.Table("PhoneTypes");
+            this.Id(x => x.Id);
+            this.Property(x => x.Type);
+            this.Bag(
+                x => x.PhoneNumbers,
+                cp =>
             {
                 //cp.Key(k => k.Column(typeof(PhoneNumber).Name));
                 //cp.Table("PhoneNumbers");
             },
-
-            cr => cr.OneToMany(c => c.Class(typeof(PhoneNumber)))
-
-            );
+                cr => cr.OneToMany(c => c.Class(typeof(PhoneNumber))));
         }
     }
 }

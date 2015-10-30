@@ -1,14 +1,9 @@
-﻿
-namespace TypeScriptTest {
-
+﻿namespace TypeScriptTest {
     describe("Learning TypeScript, UnderScroreJs and Jasmine", () => {
-
         it("should find the largest prime factor of a composite number", () => {
-
             var pr = new PrimeNumber();
             expect(pr.largestPrime(1000)).toBe(5);
             expect(pr.largestPrime(999)).toBe(3);
-
         });
 
         it("should find the largest palindrome made from the product of two 3 digit numbers", () => {
@@ -16,7 +11,6 @@ namespace TypeScriptTest {
         });
 
         it("should find the smallest number divisible by each of the numbers 1 to 20", () => {
-
             expect(1).toBe(2);
         });
 

@@ -4,13 +4,11 @@
 
     export interface IContactResource extends ng.resource.IResourceClass<TM.IContact> {
         create(contact: TM.IContact): any;
-
     }
 
     export class ContactsService {
         private resource: IContactResource;
         constructor(private $resource: ng.resource.IResourceService) {
-
             this.resource = <IContactResource>$resource("api/Contacts/:id",
                 { id: "@id" },
                 {
@@ -20,14 +18,12 @@
                     create: { method: 'POST' },
                     delete: { method: "Delete" }
                 });
-
         }
 
         getAllContacts = () => {
             var query = this.resource.query();
             var contacts = new Array<TM.Contact>();
             query.$promise.then((results) => {
-                
                 //console.log(results);
 
                 for (var i = 0; i < results.length; i++) {
@@ -37,7 +33,6 @@
             });
 
             return contacts;
-
         }
 
         getContact = (contactId) => {
@@ -56,7 +51,6 @@
             console.log(contact.id);
             return this.resource.delete({ id: contact.id });
         }
-
     }
 
     angular.module("contactsApp").service("contactsService", ContactsService);

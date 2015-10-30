@@ -1,5 +1,4 @@
-﻿
-namespace Training.Services.Mock {
+﻿namespace Training.Services.Mock {
     import TC = Training.Controllers;
     import TM = Training.Models;
 
@@ -71,5 +70,5 @@ namespace Training.Services.Mock {
                 workPhone: 2124442223
             })
         ];
-    }        
+    }
 }

@@ -1,16 +1,16 @@
-﻿class EditContent  {
+﻿class EditContent {
     constructor() {
         var directive: ng.IDirective = {};
         directive.restrict = "EA";
         directive.templateUrl = "/app/list/editForm.html";
         //directive.replace = true;
         directive.scope = {
-            contact : "=",            
-            mode: "=",                        
+            contact: "=",
+            mode: "=",
             getButtonText: "=",
             toggleEditMode: "=",
             activeEditing: "=",
-            deleteContact : "="
+            deleteContact: "="
         };
 
         //console.log(directive.scope);
